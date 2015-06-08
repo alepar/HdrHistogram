@@ -95,8 +95,20 @@ var Histogram = function(data) {
         }
     }
 
+    // === dummy stuff to fix warnings, feel free to drop it ===
+    //noinspection SillyAssignmentJS this is to fix 'unresolved variable' warnings, value is expected to be populated from json
+    this.lowestDiscernibleValue = this.lowestDiscernibleValue;
+    //noinspection SillyAssignmentJS this is to fix 'unresolved variable' warnings, value is expected to be populated from json
+    this.numberOfSignificantValueDigits = this.numberOfSignificantValueDigits;
+    //noinspection SillyAssignmentJS this is to fix 'unresolved variable' warnings, value is expected to be populated from json
+    this.startTimeStampMsec = this.startTimeStampMsec;
+    //noinspection SillyAssignmentJS this is to fix 'unresolved variable' warnings, value is expected to be populated from json
+    this.endTimeStampMsec = this.endTimeStampMsec;
+    // === END dummy stuff to fix warnings, feel free to drop it ===
+
     var largestValueWithSingleUnitResolution = 2 * Math.floor(Math.pow(10, this.numberOfSignificantValueDigits));
 
+    //noinspection JSUnresolvedVariable expected to be populated from json
     this.unitMagnitude = Math.floor(Math.log(this.lowestDiscernibleValue)/Math.log(2));
 
     var subBucketCountMagnitude = Math.ceil(Math.log(largestValueWithSingleUnitResolution)/Math.log(2));
@@ -267,8 +279,16 @@ Histogram.prototype.add = function (otherHistogram) {
             }
         }
     }
-    this.setStartTimeStamp(Math.min(this.startTimeStampMsec, this.otherHistogram.startTimeStampMsec));
-    this.setEndTimeStamp(Math.max(this.endTimeStampMsec, this.otherHistogram.endTimeStampMsec));
+    this.setStartTimeStamp(Math.min(this.startTimeStampMsec, otherHistogram.startTimeStampMsec));
+    this.setEndTimeStamp(Math.max(this.endTimeStampMsec, otherHistogram.endTimeStampMsec));
+};
+
+Histogram.prototype.setStartTimeStamp = function(timeStampMsec) {
+    this.startTimeStampMsec = timeStampMsec;
+};
+
+Histogram.prototype.setEndTimeStamp = function(timeStampMsec) {
+    this.endTimeStampMsec = timeStampMsec;
 };
 
 Histogram.prototype.updatedMaxValue = function(value) {

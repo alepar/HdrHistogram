@@ -5,11 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AbstractHistogramSerializer {
 
-    public static class HistogramMixin {
+    public static class HistogramWrapper {
 
         private final Histogram histogram;
 
-        public HistogramMixin(Histogram histogram) {
+        public HistogramWrapper(Histogram histogram) {
             this.histogram = histogram;
         }
 
@@ -45,13 +45,21 @@ public class AbstractHistogramSerializer {
             return histogram.getMaxValue();
         }
 
+        public long getStartTimeStampMsec() {
+            return histogram.getStartTimeStamp();
+        }
+
+        public long getEndTimeStampMsec() {
+            return histogram.getEndTimeStamp();
+        }
+
     }
 
-    public static class DoubleHistogramMixin {
+    public static class DoubleHistogramWrapper {
 
         private final DoubleHistogram histogram;
 
-        public DoubleHistogramMixin(DoubleHistogram histogram) {
+        public DoubleHistogramWrapper(DoubleHistogram histogram) {
             this.histogram = histogram;
         }
 
@@ -59,8 +67,8 @@ public class AbstractHistogramSerializer {
             return histogram.getHighestToLowestValueRatio();
         }
 
-        public HistogramMixin getIntegerValuesHistogram() {
-            return new HistogramMixin((Histogram)histogram.integerValuesHistogram);
+        public HistogramWrapper getIntegerValuesHistogram() {
+            return new HistogramWrapper((Histogram)histogram.integerValuesHistogram);
         }
 
     }
@@ -76,7 +84,7 @@ public class AbstractHistogramSerializer {
 //        histogram.recordValue(567);
 //        histogram.recordValue(890);
 
-        final String s = mapper.writeValueAsString(new DoubleHistogramMixin(histogram));
+        final String s = mapper.writeValueAsString(new DoubleHistogramWrapper(histogram));
 
         System.out.println(s);
 
