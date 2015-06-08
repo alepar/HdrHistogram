@@ -48,6 +48,24 @@ Double.MAX_VALUE = (2 - Math.pow(2, -52))*Math.pow(2, 1023);
 
 var Arrays = {};
 
+Arrays.binarySearch = function(array, key) {
+    var low = 0;
+    var high = array.length - 1;
+
+    while (low <= high) {
+        var mid = (low + high) >>> 1;
+        var midVal = a[mid];
+
+        if (midVal < key)
+            low = mid + 1;
+        else if (midVal > key)
+            high = mid - 1;
+        else
+            return mid;
+    }
+    return -(low + 1);
+};
+
 Arrays.copyOf = function(original, newLength) {
     var copy = Arrays.newArray(newLength);
     System.arraycopy(original, 0, copy, 0, Math.min(original.length, newLength));
