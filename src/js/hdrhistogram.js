@@ -538,6 +538,27 @@ Histogram.prototype.setCountAtNormalizedIndex = function(index, value) {
     this.counts[index] = value;
 };
 
+Histogram.prototype.getMean = function() {
+    if (this.getTotalCount() == 0) {
+        return 0.0;
+    }
+
+    var totalValue = 0;
+    var i;
+
+    for(i=0; i<this.counts.length; i++) {
+        if (this.getCountAtIndex(i) > 0) {
+            totalValue += this.medianEquivalentValue(this.valueFromIndex(i)) * this.getCountAtIndex(i);
+        }
+    }
+
+    return totalValue / this.getTotalCount();
+};
+
+Histogram.prototype.medianEquivalentValue = function(value) {
+    return (this.lowestEquivalentValue(value) + Bitwise.shiftRight(this.sizeOfEquivalentValueRange(value), 1));
+};
+
 /*from DoubleHistogram*/
 var DoubleHistogram = function(data) {
     this.autoResize = true;
@@ -766,4 +787,8 @@ DoubleHistogram.prototype.handleShiftValuesException = function(numberOfBinaryOr
 
 DoubleHistogram.prototype.getHighestToLowestValueRatio = function() {
     return this.configuredHighestToLowestValueRatio;
+};
+
+DoubleHistogram.prototype.getMean = function() {
+    return this.integerValuesHistogram.getMean() * this.integerToDoubleValueConversionRatio;
 };

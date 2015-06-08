@@ -12,14 +12,17 @@
 
     var i;
 
-//    hist.recordValueWithCount(10, 1);
-//    hist.recordValueWithCount(1, 1);
+    hist.recordValueWithCount(20, 3);
+    hist.recordValueWithCount(10, 1);
+    hist.recordValueWithCount(5, 1);
 
-    for (i=0; i<10000; i++) {
-        hist.recordValueWithCount(i, 1);
-    }
+//    for (i=0; i<10000; i++) {
+//        hist.recordValueWithCount(i, 1);
+//    }
 //    hist.recordValueWithCount(890, 1);
 //    hist.recordValueWithCount(100000, 1);
+
+    console.log(hist.getMean());
 
     console.log(hist.integerValuesHistogram.counts.length);
 
