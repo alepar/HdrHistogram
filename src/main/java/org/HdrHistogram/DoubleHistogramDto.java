@@ -12,6 +12,10 @@ public class DoubleHistogramDto {
         return histogram.getHighestToLowestValueRatio();
     }
 
+    public int getNumberOfSignificantValueDigits() {
+        return histogram.getNumberOfSignificantValueDigits();
+    }
+
     public HistogramDto getIntegerValuesHistogram() {
         return new HistogramDto((Histogram)histogram.integerValuesHistogram);
     }
