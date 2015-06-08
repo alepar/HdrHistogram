@@ -95,20 +95,19 @@ var Histogram = function(data) {
         }
     }
 
-    // === dummy stuff to fix warnings, feel free to drop it ===
-    //noinspection SillyAssignmentJS this is to fix 'unresolved variable' warnings, value is expected to be populated from json
+    // === dummy fix for 'unresolved variable' warnings, values are expected to be populated from json, feel free to drop it ===
+    //noinspection SillyAssignmentJS
     this.lowestDiscernibleValue = this.lowestDiscernibleValue;
-    //noinspection SillyAssignmentJS this is to fix 'unresolved variable' warnings, value is expected to be populated from json
+    //noinspection SillyAssignmentJS
     this.numberOfSignificantValueDigits = this.numberOfSignificantValueDigits;
-    //noinspection SillyAssignmentJS this is to fix 'unresolved variable' warnings, value is expected to be populated from json
+    //noinspection SillyAssignmentJS
     this.startTimeStampMsec = this.startTimeStampMsec;
-    //noinspection SillyAssignmentJS this is to fix 'unresolved variable' warnings, value is expected to be populated from json
+    //noinspection SillyAssignmentJS
     this.endTimeStampMsec = this.endTimeStampMsec;
-    // === END dummy stuff to fix warnings, feel free to drop it ===
+    // === END ===
 
     var largestValueWithSingleUnitResolution = 2 * Math.floor(Math.pow(10, this.numberOfSignificantValueDigits));
 
-    //noinspection JSUnresolvedVariable expected to be populated from json
     this.unitMagnitude = Math.floor(Math.log(this.lowestDiscernibleValue)/Math.log(2));
 
     var subBucketCountMagnitude = Math.ceil(Math.log(largestValueWithSingleUnitResolution)/Math.log(2));
@@ -166,7 +165,7 @@ Histogram.prototype.getValueAtPercentile = function(percentile) {
     var totalToCurrentIndex = 0;
     var i;
     for (i=0; i<this.countsArrayLength; i++) {
-        totalToCurrentIndex += this.counts[i];
+        totalToCurrentIndex += this.getCountAtIndex(i);
         if (totalToCurrentIndex >= countAtPercentile) {
             var valueAtIndex = this.valueFromIndex(i);
             return (percentile == 0) ?
@@ -791,4 +790,12 @@ DoubleHistogram.prototype.getHighestToLowestValueRatio = function() {
 
 DoubleHistogram.prototype.getMean = function() {
     return this.integerValuesHistogram.getMean() * this.integerToDoubleValueConversionRatio;
+};
+
+DoubleHistogram.prototype.getValueAtPercentile = function(percentile) {
+    return this.integerValuesHistogram.getValueAtPercentile(percentile) * this.integerToDoubleValueConversionRatio;
+};
+
+DoubleHistogram.prototype.getMaxValue = function() {
+    return this.integerValuesHistogram.getMaxValue() * this.integerToDoubleValueConversionRatio;
 };
