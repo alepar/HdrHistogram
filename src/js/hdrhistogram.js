@@ -7,9 +7,9 @@
  */
 
 /*parts of j2se*/
-//    TODO: Math.ulp
+// TODO: implement correctly
 Math.ulp = function(value) {
-    return 0.1;
+    return value / 1000000; // probably good enough as long as we don't go too small
 };
 
 var Bitwise = {};
@@ -54,7 +54,7 @@ Arrays.binarySearch = function(array, key) {
 
     while (low <= high) {
         var mid = (low + high) >>> 1;
-        var midVal = a[mid];
+        var midVal = array[mid];
 
         if (midVal < key)
             low = mid + 1;
